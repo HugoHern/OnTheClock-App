@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import Grid from "@mui/material/Grid";
 import Button from '@mui/material/Button';
 import Card from "@mui/material/Card";
@@ -8,6 +8,8 @@ import Header from '../components/Header'
 import Box from "@mui/material/Box";
 
 import "./pages.css";
+import axios from "axios";
+
 
 const mondayHours = {
   day: "Monday",
@@ -26,7 +28,36 @@ const weekdays = [
   mondayHours,
 ];
 
+
+
 function DailyHours() {
+
+  const [dailyHours, setDailyHours] = useState({});
+  let currentWeekDays = []
+
+  const setDays = () => {
+    for (let i = 0; i < dailyHours.length; i++){
+      currentWeekDays.push(dailyHours(i))
+    }
+    console.log('current weekdays' + currentWeekDays)
+  }
+
+  setDays()
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let response = await axios.get("http://localhost:5000/time");
+      let data = response.data;
+      //console.log(data)
+      return data;
+    };
+    let hours = fetchData();
+    setDailyHours(hours);
+    console.log(dailyHours);
+ 
+  }, []);
+  
   return (
     <>
     <Header />
