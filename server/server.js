@@ -8,6 +8,7 @@ const bcrypt = require('bcrypt')
 
 //impoty users models temporarily for testing
 const User = require('./models/Users')
+const Time = require('./models/Times')
 
 
 const app = express()
@@ -31,6 +32,10 @@ app.get('/login', (req, res) => {
     res.send('this is login page')
 })
 
+app.get('/time', (req, res) => {
+ Time.find({}, (err, times) => {res.send(times)})
+})
+
 // this route uses http://localhost:5000/register to setup a new user
 app.post('/register', async (req, res) => {
   let user = req.body
@@ -39,7 +44,7 @@ app.post('/register', async (req, res) => {
     const hashedPassword = await bcrypt.hash(req.body.password, 10)
     newUser.password = hashedPassword
     await newUser.save()
-
+    console.log('user added')
   }catch(error){
     res.status(400).json({message: error.message})
 
@@ -51,6 +56,16 @@ app.post('/login',  (req, res) => {
   res.send('you logged in')
 })
 
+app.post('/time', async (req, res) => {
+  let time = req.body
+  let newTime = new Time(time)
+  try{
+    await newTime.save()
+    console.log('time added')
+  }catch(error){
+    res.status(400).json({message: error.message})
+  }
+})
 /*                 MONGODB              */
 const connectDB = async () => {
     try {
@@ -63,7 +78,7 @@ const connectDB = async () => {
     }
   };
   
-  connectDB();
+connectDB();
   
 
 

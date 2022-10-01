@@ -7,7 +7,7 @@ function Modal({closeModal}) {
         <button onClick={() => {closeModal(false)}}> X </button>
     </div>
     <div>
-        <form>
+        <form> 
             <input placeholder='Enter Day' />
             <input placeholder='Enter Hours'/>
             <button onClick={console.log('submitted')}>Submit</button>
