@@ -5,20 +5,31 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require('dotenv').config()
 const bcrypt = require('bcrypt')
+const passport = require('passport')
+const intilializePassport = require('./passport-config')
+const flash = require('express-flash')
+const flashSession = require('express-session')
 
 //impoty users models temporarily for testing
 const User = require('./models/Users')
 const Time = require('./models/Times')
 
 
+// function from pass-config.js to authenticate user
+/*intilializePassport(passport, email => {
+  return users.find(user => user.email === email)
+})*/
 const app = express()
 const mongoConnect = process.env.MONGO_URI
  
 /*                  MIDDDLEWARE                  */
 //app.use(bodyparser.json({ limit: "30mb", extended: true }));
-//app.use(bodyparser.urlencoded({ limit: "30mb", extended: true }));
+//app.use(bodyparser.urlen coded({ limit: "30mb", extended: true }));
 app.use(cors());
 app.use(express.json());
+app
+
+
 // respond with "hello world" when a GET request is made to the homepage
 app.get('/', (req, res) => {
     res.send('this is the index page')

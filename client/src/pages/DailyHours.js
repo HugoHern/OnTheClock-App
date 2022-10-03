@@ -4,9 +4,7 @@ import Button from '@mui/material/Button';
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import Header from '../components/Header'
-
 import Box from "@mui/material/Box";
-
 import "./pages.css";
 import axios from "axios";
 
@@ -28,35 +26,39 @@ const weekdays = [
   mondayHours,
 ];
 
+/* { 
+    Object.keys(subjects).map((item, i) => (
+        <li className="travelcompany-input" key={i}>
+            <span className="input-label">{ subjects[item].name }</span>
+        </li>
+    ))
 
+     let response = await axios.get("http://localhost:5000/time");
+      let data = response.data;
+}  */
 
 function DailyHours() {
 
-  const [dailyHours, setDailyHours] = useState({});
-  let currentWeekDays = []
-
-  const setDays = () => {
-    for (let i = 0; i < dailyHours.length; i++){
-      currentWeekDays.push(dailyHours(i))
-    }
-    console.log('current weekdays' + currentWeekDays)
-  }
-
-  setDays()
+  const [dailyHours, setDailyHours] = useState([]);
 
 
   useEffect(() => {
     const fetchData = async () => {
-      let response = await axios.get("http://localhost:5000/time");
-      let data = response.data;
-      //console.log(data)
-      return data;
+      try {
+        const response = await axios.get("http://localhost:5000/time");
+        setDailyHours(response.data);
+      } catch (error) {
+        console.log(error.response.data);
+        console.log(error.response.status);
+      }
     };
-    let hours = fetchData();
-    setDailyHours(hours);
-    console.log(dailyHours);
- 
+
+    fetchData()
   }, []);
+
+  
+  console.log(dailyHours)
+  
   
   return (
     <>
@@ -78,7 +80,7 @@ function DailyHours() {
             alignItems="center"
             spacing={3}
           >
-            {weekdays.map((value) => (
+            {dailyHours.map((value) => (
               <Grid item key={Math.random(value.totalHours)}>
                 <Card variant="outlined">
                   <Typography sx={{ mb: 1.5 }} color="text.secondary">
