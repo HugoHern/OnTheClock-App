@@ -5,10 +5,8 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require('dotenv').config()
 const bcrypt = require('bcrypt')
-const passport = require('passport')
-const intilializePassport = require('./passport-config')
-const flash = require('express-flash')
-const flashSession = require('express-session')
+const passport = require('passport') //authentication
+const connectEnsureLogin = require('connect-ensure-login') //authorization
 
 //impoty users models temporarily for testing
 const User = require('./models/Users')
@@ -21,13 +19,32 @@ const Time = require('./models/Times')
 })*/
 const app = express()
 const mongoConnect = process.env.MONGO_URI
+const secret = process.env.SESSION_SECRET
  
 /*                  MIDDDLEWARE                  */
 //app.use(bodyparser.json({ limit: "30mb", extended: true }));
 //app.use(bodyparser.urlen coded({ limit: "30mb", extended: true }));
 app.use(cors());
 app.use(express.json());
-app
+//MIDDLEWARE FOR AUTHENTICATION AND AUTHORIZATION
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(User.createStrategy());
+
+//setting up express session
+app.use(session({
+  secret: secret,
+  resave: false,
+  saveUninitialized: true,
+  cookie: { maxAge: 60 * 60 * 1000 } // 1 hour
+}));
+
+// Passport Local Strategy
+passport.use(User.createStrategy());
+
+// To use with sessions
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 
 // respond with "hello world" when a GET request is made to the homepage
