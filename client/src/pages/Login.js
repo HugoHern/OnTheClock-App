@@ -11,6 +11,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import axios from 'axios';
 
 function Copyright(props) {
   return (
@@ -32,9 +33,12 @@ export default function SignIn() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log('send this to the backend', {
-      email: data.get('email'),
+      username: data.get('email'),
       password: data.get('password')
     });
+
+    axios.post('http://localhost:5000/login',{username: data.get('email'), password: data.get('password')})
+    .then((res) => {console.log('logged in')}).catch((err) => {console.log('err')});
   };
 
   return (
@@ -58,10 +62,10 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="username"
+              label="Username"
+              name="username"
+             
               autoFocus
             />
             <TextField
@@ -72,7 +76,7 @@ export default function SignIn() {
               label="Password"
               type="password"
               id="password"
-              autoComplete="current-password"
+           
             />
       
             <Button

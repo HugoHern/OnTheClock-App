@@ -6,6 +6,8 @@ const cors = require("cors");
 require('dotenv').config()
 const bcrypt = require('bcrypt')
 const passport = require('passport') //authentication
+const session = require("express-session");
+const cookieParser = require('cookie-parser')
 const connectEnsureLogin = require('connect-ensure-login') //authorization
 
 //impoty users models temporarily for testing
@@ -27,9 +29,9 @@ const secret = process.env.SESSION_SECRET
 app.use(cors());
 app.use(express.json());
 //MIDDLEWARE FOR AUTHENTICATION AND AUTHORIZATION
-app.use(passport.initialize());
-app.use(passport.session());
-passport.use(User.createStrategy());
+//app.use(passport.initialize());
+//app.use(passport.session());
+//passport.use(User.createStrategy());
 
 //setting up express session
 app.use(session({
@@ -39,12 +41,22 @@ app.use(session({
   cookie: { maxAge: 60 * 60 * 1000 } // 1 hour
 }));
 
+app.use(cookieParser(secret))
+app.use(passport.initialize())
+app.use(passport.session());
+require('./passport-config')(passport)
+
+//app.use(express.static(path.resolve(__dirname, '..', <path to build folder>)))
+
+/*                              END OF MIDDLEWARE                                */
+
+
 // Passport Local Strategy
-passport.use(User.createStrategy());
+//passport.use(User.createStrategy());
 
 // To use with sessions
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+//passport.serializeUser(User.serializeUser());
+//passport.deserializeUser(User.deserializeUser());
 
 
 // respond with "hello world" when a GET request is made to the homepage
@@ -53,7 +65,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/user', (req, res) => {
-    res.send('this is the home user page')
+    res.send(req.user)
 })
 
 app.get('/login', (req, res) => {
@@ -80,8 +92,18 @@ app.post('/register', async (req, res) => {
   
 })
 
-app.post('/login',  (req, res) => {
-  res.send('you logged in')
+app.post('/login',  (req, res, next) => {
+  passport.authenticate('local', (err, user, info) => {
+    if (err) throw err
+    if (!user) res.send('No User Exists ')
+    else {
+      req.logIn(user, err => {
+        if (err) throw err
+        res.send('Success')
+        console.log(req.user)
+      })
+    }
+  })(req, res, next)
 })
 
 app.post('/time', async (req, res) => {
