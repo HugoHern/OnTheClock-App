@@ -9,7 +9,7 @@ import "./pages.css";
 import axios from "axios";
 
 
-const mondayHours = {
+/*const mondayHours = {
   day: "Monday",
   hourStarted: "12:00",
   hourEnded: "18:00",
@@ -24,22 +24,25 @@ const weekdays = [
   mondayHours,
   mondayHours,
   mondayHours,
-];
+];*/
 
-/* { 
-    Object.keys(subjects).map((item, i) => (
-        <li className="travelcompany-input" key={i}>
-            <span className="input-label">{ subjects[item].name }</span>
-        </li>
-    ))
-
-     let response = await axios.get("http://localhost:5000/time");
-      let data = response.data;
-}  */
 
 function DailyHours() {
 
   const [dailyHours, setDailyHours] = useState([]);
+
+  const deleteTime = (id, e) => {
+    axios.delete(`http://localhost:5000/time/delete/${id}`)
+    .then(res => {
+        console.log(res);
+        console.log(res.data);
+      })
+      
+
+      const time = dailyHours.filter(item => item.id !== id);
+      setDailyHours(time);
+    }
+
 
 
   useEffect(() => {
@@ -96,7 +99,7 @@ function DailyHours() {
                     Total Hours: {value.totalHours}
                   </Typography>
                   <Button size="small">Edit</Button>
-                  <Button size="small">Delete</Button>
+                  <Button size="small" onClick={(e) => deleteTime(value._id, e)}>Delete</Button>
                 </Card>
               </Grid>
             ))}

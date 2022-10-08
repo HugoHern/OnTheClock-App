@@ -116,6 +116,14 @@ app.post('/time', async (req, res) => {
     res.status(400).json({message: error.message})
   }
 })
+
+app.delete('/time/delete/:id', (req, res) => {
+  const _id = req.params.id
+  console.log(_id)
+  Time.deleteOne({_id}, (err, result) => {
+    console.log(result)
+  })
+})
 /*                 MONGODB              */
 const connectDB = async () => {
     try {

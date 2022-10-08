@@ -29,17 +29,25 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignIn() {
+
+  const [credentials, setCredentials] = React.useState(null)
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log('send this to the backend', {
-      username: data.get('email'),
+      username: data.get('username'),
       password: data.get('password')
     });
 
-    axios.post('http://localhost:5000/login',{username: data.get('email'), password: data.get('password')})
+    axios.post('http://localhost:5000/login',{username: data.get('username'), password: data.get('password')})
     .then((res) => {console.log('logged in')}).catch((err) => {console.log('err')});
+
   };
+
+  
+  axios.get('http://localhost:5000/user').then((res) => setCredentials(res.data))
+  console.log(credentials)
 
   return (
     <ThemeProvider theme={theme}>
