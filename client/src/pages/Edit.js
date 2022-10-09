@@ -51,10 +51,8 @@ function Edit(props) {
         padding: "20px",
         borderRadius: "20px",
       }}>
-        <label >Enter Week Number</label>
-        <input type="number" name="week" placeholder="week" onChange={handleChange} />
-
-        <label >Enter Day Of Week</label>
+        
+        <label >Enter New Date</label>
         <input type="text" name="day" placeholder="day" onChange={handleChange}/>
 
         <label >Enter Hour Started</label>

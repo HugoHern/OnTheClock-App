@@ -7,6 +7,7 @@ import Header from "./Header";
 import Box from "@mui/material/Box";
 import axios from "axios";
 import {Routes, Route} from 'react-router-dom';
+import EditModal from './EditModal'
 
 import Edit from '../pages/Edit';
 
@@ -29,11 +30,12 @@ const weekdays = [
 
 function DailyHours() {
   const [dailyHours, setDailyHours] = useState([]);
-  const [id, setID] = useState('');
+  const [openEditModal, setOpenEditModal] = useState(false);
 
-  <Routes>
-    <Route path="/edit" element={<Edit props={id} />} />
-  </Routes>
+  const editHours = () => {
+    setOpenEditModal(true)
+  }
+
 
 
   
@@ -98,7 +100,8 @@ function DailyHours() {
                     <Typography sx={{ mb: 1.5 }} color="text.secondary">
                       Total Hours: {value.totalHours}
                     </Typography>
-                    <Button size="small" href='/edit' onClick={(e) => setID(value._id)}> Edit </Button>
+                    <Button size="small" onClick={editHours}> Edit </Button>
+                    {openEditModal && <EditModal closeModal={setOpenEditModal} id={value._id}/>}
                     <Button
                       size="small"
                       onClick={(e) => deleteTime(value._id, e)}

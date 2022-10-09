@@ -2,7 +2,6 @@ import * as React from 'react';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import AlarmAddIcon from '@mui/icons-material/AlarmAdd';
-import AlarmOffIcon from '@mui/icons-material/AlarmOff';
 import Modal from '../components/Modal';
 
 
@@ -14,11 +13,7 @@ export default function Clockin() {
     setOpenModal(true)
   }
 
-  
-  const clockOut = () => {
-   
-    setOpenModal(true)
-  }
+
 
 
   return (
@@ -26,11 +21,9 @@ export default function Clockin() {
     <Stack direction="row" spacing={2}>
      
       <Button variant="contained" color="success" startIcon={<AlarmAddIcon/>}  onClick={() => {clockIn()}}>
-        Clock In
+        Log Hours
       </Button>
-      <Button variant="outlined" color="error" startIcon={<AlarmOffIcon/>}  onClick={() => {clockOut()}}>
-        Clock Out
-      </Button>
+      
       
     </Stack>
     {openModal && <Modal closeModal={setOpenModal}/>}
