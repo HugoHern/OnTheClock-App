@@ -2,7 +2,6 @@ import React, {useState} from 'react'
 import Clockin from '../components/Clockin';
 import Header from '../components/Header';
 
-import Week from '../components/Week'
 import Box from '@mui/material/Box'
 import Greeting from '../components/Greeting';
 import DailyHours from '../components/DailyHours';

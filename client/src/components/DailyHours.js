@@ -3,30 +3,13 @@ import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
-import Header from "./Header";
 import Box from "@mui/material/Box";
 import axios from "axios";
-import {Routes, Route} from 'react-router-dom';
+
 import EditModal from './EditModal'
 
-import Edit from '../pages/Edit';
 
-/*const mondayHours = {
-  day: "Monday",
-  hourStarted: "12:00",
-  hourEnded: "18:00",
-  totalHours: 6,
-};
 
-const weekdays = [
-  mondayHours,
-  mondayHours,
-  mondayHours,
-  mondayHours,
-  mondayHours,
-  mondayHours,
-  mondayHours,
-];*/
 
 function DailyHours() {
   const [dailyHours, setDailyHours] = useState([]);
