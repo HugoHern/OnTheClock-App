@@ -1,6 +1,34 @@
-import React from 'react'
+import React, {useState} from 'react'
+import axios from "axios";
+
 
 function Modal({closeModal}) {
+
+  const [time, setTime] = useState({})
+
+  const handleChange = (event) => {
+    const name = event.target.name
+    const value = event.target.value
+    setTime(values => ({...values, [name]: value}))
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    axios
+      .post(`http://localhost:5000/time`, {
+        day: time.day,
+        hourStarted: time.hourStarted,
+        hourEnded: time.hourEnded,
+        totalHours: time.totalHours
+      })
+      .then((res) => {
+        console.log("Posted Time");
+      })
+      .catch((err) => {
+        console.log("err");
+      });
+    }
+
   return (
     <>
     <div>
@@ -8,9 +36,11 @@ function Modal({closeModal}) {
     </div>
     <div>
         <form> 
-            <input placeholder='Enter Day' />
-            <input placeholder='Enter Hours'/>
-            <button onClick={console.log('submitted')}>Submit</button>
+            <input type='text' name='day' onChange={handleChange} placeholder='Enter Date' />
+            <input type ='text' name='hourStarted' onChange={handleChange} placeholder = 'Enter Hour Started'/>
+            <input type = 'text' name='hourEnded' onChange={handleChange} placeholder='Enter Hour Ended'/>
+            <input type='number' name='totalHours' onChange={handleChange} placeholder='Enter Total Daily Hours'/>
+            <button onClick={handleSubmit}>Submit</button>
         </form>
     </div>
     </>

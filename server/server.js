@@ -124,6 +124,13 @@ app.delete('/time/delete/:id', (req, res) => {
     console.log(result)
   })
 })
+
+app.put('/time/edit/:id', (req, res) => {
+  const _id = req.params.id
+  console.log(_id)
+  Time.findOneAndUpdate({_id}, req.body, (err, result) => {console.log(result)});
+})
+
 /*                 MONGODB              */
 const connectDB = async () => {
     try {

@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import Week from '../components/Week'
 import Box from '@mui/material/Box'
 import Greeting from '../components/Greeting';
+import DailyHours from '../components/DailyHours';
 
 function Hours() {
 /*sample data */
@@ -23,7 +24,7 @@ const User = {
       <div className="Hours">
         <Header />
         <Greeting user={currentUser}/>
-        <Week />
+        <DailyHours />
       </div>
       <Box sx={{ display: 'flex', justifyContent: "center" }}>
         <Clockin />

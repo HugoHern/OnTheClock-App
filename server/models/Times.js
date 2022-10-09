@@ -3,10 +3,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const Times = new Schema({
-    week: {
-        type: Number
-    },
-
+ 
     day: {
         type: String
     },
