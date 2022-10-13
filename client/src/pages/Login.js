@@ -43,11 +43,13 @@ export default function SignIn() {
     axios.post('http://localhost:5000/login',{username: data.get('username'), password: data.get('password')})
     .then((res) => {console.log('logged in')}).catch((err) => {console.log('err')});
 
+    axios.get('http://localhost:5000/user').then((res) => setCredentials(res.data))
+  console.log(credentials)
+
   };
 
   
-  axios.get('http://localhost:5000/user').then((res) => setCredentials(res.data))
-  console.log(credentials)
+  
 
   return (
     <ThemeProvider theme={theme}>

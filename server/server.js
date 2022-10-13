@@ -38,6 +38,14 @@ app.use(passport.initialize())
 app.use(passport.session());
 require('./passport-config')(passport)
 
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../client/build')))
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../', 'client', 'build', 'index.html'));
+  })
+} else {
+  app.get('/', (req, res) => {res.send('Please set to production')})
+}
 //app.use(express.static(path.resolve(__dirname, '..', <path to build folder>)))
 
 /*                              END OF MIDDLEWARE                                */
