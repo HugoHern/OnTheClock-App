@@ -8,30 +8,22 @@ const bcrypt = require('bcrypt')
 const passport = require('passport') //authentication
 const session = require("express-session");
 const cookieParser = require('cookie-parser')
-const connectEnsureLogin = require('connect-ensure-login') //authorization
+
 
 //impoty users models temporarily for testing
 const User = require('./models/Users')
 const Time = require('./models/Times')
 
 
-// function from pass-config.js to authenticate user
-/*intilializePassport(passport, email => {
-  return users.find(user => user.email === email)
-})*/
+
 const app = express()
 const mongoConnect = process.env.MONGO_URI
 const secret = process.env.SESSION_SECRET
  
-/*                  MIDDDLEWARE                  */
-//app.use(bodyparser.json({ limit: "30mb", extended: true }));
-//app.use(bodyparser.urlen coded({ limit: "30mb", extended: true }));
+
 app.use(cors());
 app.use(express.json());
-//MIDDLEWARE FOR AUTHENTICATION AND AUTHORIZATION
-//app.use(passport.initialize());
-//app.use(passport.session());
-//passport.use(User.createStrategy());
+
 
 //setting up express session
 app.use(session({
@@ -51,26 +43,15 @@ require('./passport-config')(passport)
 /*                              END OF MIDDLEWARE                                */
 
 
-// Passport Local Strategy
-//passport.use(User.createStrategy());
-
-// To use with sessions
-//passport.serializeUser(User.serializeUser());
-//passport.deserializeUser(User.deserializeUser());
 
 
 // respond with "hello world" when a GET request is made to the homepage
-app.get('/', (req, res) => {
-    res.send('this is the index page')
-})
 
 app.get('/user', (req, res) => {
     res.send(req.user)
 })
 
-app.get('/login', (req, res) => {
-    res.send('this is login page')
-})
+
 
 app.get('/time', (req, res) => {
  Time.find({}, (err, times) => {res.send(times)})
